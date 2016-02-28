@@ -9,10 +9,11 @@ public class MyApplet extends JApplet implements ActionListener {
   double mutationRate = 0.01;
   int rocketsNum = 50;
   Population population = new Population(mutationRate, rocketsNum);
+  JButton start_button;
 
   public void init() {
     setSize(app_width, app_height);
-    JButton start_button = new JButton("START");
+    start_button = new JButton("START");
     start_button.addActionListener(this);
     setLayout(new FlowLayout());
     add(population);
@@ -23,6 +24,10 @@ public class MyApplet extends JApplet implements ActionListener {
     population.draw = !population.draw;
     if(population.draw) {
       population.repaint();
+      start_button.setText("PAUSE");
+    }
+    else {
+      start_button.setText("START");
     }
   }
 }

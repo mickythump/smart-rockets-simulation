@@ -14,6 +14,12 @@ public class Vector2d {
     return new Vector2d(x, y);
   }
 
+  public Vector2d set(double x, double y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+
   public Vector2d add(Vector2d v) {
     x += v.x;
     y += v.y;

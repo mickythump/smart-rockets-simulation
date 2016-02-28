@@ -4,16 +4,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class Population extends JPanel {
+public class Population extends JPanel implements MouseListener {
   boolean draw;
   static int size = 600;
 
   double mutationRate;
   Rocket[] population;
   ArrayList<Rocket> matingPool;
-  int generations;
+  int generations, cycleNum;
   static int lifetime = size;
-  int lifeCounter;
 
   static Vector2d target;
 
@@ -33,7 +32,18 @@ public class Population extends JPanel {
 
     setBorder(BorderFactory.createLineBorder(Color.black));
     setBackground(Color.WHITE);
+    addMouseListener(this);
   }
+
+  public void mousePressed(MouseEvent e) {
+    System.out.println("clicked");
+    target.set(e.getX(), e.getY());
+  }
+  public void mouseClicked(MouseEvent e) {}
+  public void mouseEntered(MouseEvent e) {}
+  public void mouseExited(MouseEvent e) {}
+  public void mouseReleased(MouseEvent e) {}
+  public void mouseDragged(MouseEvent e) {}
 
   public Dimension getPreferredSize() {
     return new Dimension(size, size);
@@ -41,17 +51,21 @@ public class Population extends JPanel {
 
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    g.drawRect((int)target.x, (int)target.y, 12, 12);
+    g.drawString("Generation: " + getGenerations(), 10, 18);
+    g.drawString("Cycles to next gen: " + (lifetime - cycleNum), 10, 36);
+    g.setColor(Color.RED);
+    g.fillRect((int)target.x, (int)target.y, 12, 12);
+    g.setColor(Color.BLACK);
     for(int i = 0; i < population.length; i++) {
-      g.drawRect((int)population[i].location.x, (int)population[i].location.y, 5, 5);
+      g.fillRect((int)population[i].location.x, (int)population[i].location.y, 5, 5);
     }
     if(draw) {
-      if(lifeCounter < lifetime) {
+      if(cycleNum < lifetime) {
         live();
-        lifeCounter++;
+        cycleNum++;
       }
       else {
-        lifeCounter = 0;
+        cycleNum = 0;
         fitness();
         selection();
         reproduction();
