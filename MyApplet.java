@@ -2,12 +2,13 @@ import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 
 public class MyApplet extends JApplet implements ActionListener {
   static int app_width = 800;
   static int app_height = 640;
   double mutationRate = 0.01;
-  int rocketsNum = 50;
+  int rocketsNum = 1000;
   Population population = new Population(mutationRate, rocketsNum);
   JButton start_button;
 

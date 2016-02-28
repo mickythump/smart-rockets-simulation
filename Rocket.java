@@ -7,7 +7,7 @@ public class Rocket {
   double fitness;
   DNA dna;
 
-  int geneCounter = 0;
+  int genesNum = 0;
 
   boolean hitTarget = false;
 
@@ -30,6 +30,7 @@ public class Rocket {
   }
 
   public void fitness() {
+    //calculate distance from rocket to target. the lower the distance, the higher the fitness
     double dist = Vector2d.dist(location.x, location.y, target.x, target.y);
     fitness = 1 / dist;
   }
@@ -37,8 +38,8 @@ public class Rocket {
   public void run() {
     checkTarget();
     if(!hitTarget) {
-      applyForce(dna.genes[geneCounter]);
-      geneCounter = (geneCounter + 1) % dna.genes.length;
+      applyForce(dna.genes[genesNum]); //applyForce written in this piece of DNA
+      genesNum = (genesNum + 1) % dna.genes.length;
       update();
     }
   }

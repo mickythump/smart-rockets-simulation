@@ -26,6 +26,7 @@ public class Population extends JPanel implements MouseListener {
     generations = 0;
 
     for(int i = 0; i < population.length; i++) {
+      //generate random initial location for each object in population
       Vector2d location = new Vector2d(size / 2, size - 20);
       population[i] = new Rocket(location, new DNA());
     }
@@ -36,8 +37,7 @@ public class Population extends JPanel implements MouseListener {
   }
 
   public void mousePressed(MouseEvent e) {
-    System.out.println("clicked");
-    target.set(e.getX(), e.getY());
+    target.set(e.getX(), e.getY()); //set the target in the jpnale's clicked location
   }
   public void mouseClicked(MouseEvent e) {}
   public void mouseEntered(MouseEvent e) {}
@@ -57,7 +57,7 @@ public class Population extends JPanel implements MouseListener {
     g.fillRect((int)target.x, (int)target.y, 12, 12);
     g.setColor(Color.BLACK);
     for(int i = 0; i < population.length; i++) {
-      g.fillRect((int)population[i].location.x, (int)population[i].location.y, 5, 5);
+      g.fillOval((int)population[i].location.x, (int)population[i].location.y, 5, 5);
     }
     if(draw) {
       if(cycleNum < lifetime) {
@@ -96,6 +96,7 @@ public class Population extends JPanel implements MouseListener {
 
     double maxFitness = getMaxFitness();
 
+    //map fitness from 0 to 1 so that in can be calculated as percents, create roulette wheel
     for(int i = 0; i < population.length; i++) {
       double fitnessNormal = Vector2d.map(population[i].getFitness(), 0, maxFitness, 0, 1);
       int n = (int) (fitnessNormal * 100);
@@ -109,6 +110,10 @@ public class Population extends JPanel implements MouseListener {
     for(int i = 0; i < population.length; i++) {
       int m = (int) (Math.random() * matingPool.size());
       int d = (int) (Math.random() * matingPool.size());
+
+      while(d == m) {
+        d = (int) (Math.random() * matingPool.size());
+      }
 
       Rocket mom = matingPool.get(m);
       Rocket dad = matingPool.get(d);
